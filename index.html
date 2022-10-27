@@ -1,0 +1,326 @@
+<html>
+    <head>
+        <Title>Calculator</Title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <script type="text/javascript" src="trainedParameters.js"></script>
+
+
+    </head>
+    <style>
+        body {
+            background-color: #272B30;
+            color: white;
+        }
+        [data-tooltip-left]:before {
+            /* needed - do not touch */
+            content: attr(data-tooltip-left);
+            position: absolute;
+            opacity: 0;
+            
+            /* customizable */
+            /* transition: all 0.15s ease; */
+            padding: 10px;
+            /* color: #333; */
+            border-radius: 10px;
+            box-shadow: 2px 2px 1px silver;    
+        }
+
+        [data-tooltip-left]:hover:before {
+            /* needed - do not touch */
+            opacity: 1;
+            
+            /* customizable */
+            background: #474B50; 
+            margin-top: 50px;
+            margin-left: 20px;
+            max-width: 30%;
+        }
+
+        [data-tooltip-left]:not([data-tooltip-persistent]):before {
+            pointer-events: none;
+        }
+
+        [data-tooltip-right]:before {
+            /* needed - do not touch */
+            content: attr(data-tooltip-right);
+            position: absolute;
+            opacity: 0;
+            
+            /* customizable */
+            /* transition: all 0.15s ease; */
+            padding: 10px;
+            /* color: #333; */
+            border-radius: 10px;
+            box-shadow: 2px 2px 1px silver;    
+        }
+
+        [data-tooltip-right]:hover:before {
+            /* needed - do not touch */
+            opacity: 1;
+            
+            /* customizable */
+            background: #474B50; 
+            margin-top: 50px;
+            margin-left: -25%;
+            max-width: 30%;
+        }
+
+        [data-tooltip-right]:not([data-tooltip-persistent]):before {
+            pointer-events: none;
+        }
+
+
+    </style>
+    <body>
+       <table id = 'table'>
+            <tr>
+                <th data-tooltip-left="Enter the SUV that is not corrected for background activity. Leave empty if FDG uptake of the N1 lymph nodes appears ≤ the mediastinal background on visual assessment.">Lymph node SUVmax (N1)</th>
+                <th data-tooltip-left="Enter the SUV that is not corrected for background activity. Leave empty if FDG uptake of the N2 lymph nodes appears ≤ the mediastinal background on visual assessment.">Lymph node SUVmax (N2)</th>
+                <th data-tooltip-left="Enter the SUV that is not corrected for background activity. Leave empty if FDG uptake of the N3 lymph nodes appears ≤ the mediastinal background on visual assessment.">Lymph node SUVmax (N3)</th>
+                <th data-tooltip-left="Highest short axis diameter of any lymph node in the N1 region (irrespective of its FDG uptake).">N1 lymph node size [mm]</th>
+                <th data-tooltip-left="Highest short axis diameter of any lymph node in the N2 region (irrespective of its FDG uptake).">N2 lymph node size [mm]</th>
+                <th data-tooltip-left="Does any of the mediastinal lymph nodes (ipsilateral or contralateral to the primary tumor) appear ‘black’ on the inverse grey scale (as the primary tumor usually does)?">Visual PET score of mediastinal lymph nodes = 4?</th>
+                <th data-tooltip-right="Patient age at the time of PET imaging rounded down to the full year.">Age [years]</th>
+                <th data-tooltip-right="Using the lung window settings in CT images.">Largest primary tumor diameter in transaxial plane [mm]</th>
+                <th data-tooltip-right="The SUVmean is measured in two-dimensional regions of interest positioned contralateral to the primary tumor in normal lung tissue. The mean value of three consecutive slices is used (see image A).">Lung background SUVmean</th>
+                <th data-tooltip-right="The SUVmean is measured in two-dimensional regions of interest positioned in the lumen (blood pool) of the right pulmonary artery. The mean value of three consecutive slices is used (see image B).">Mediastinal background SUVmean</th>            
+            </tr>
+            <tr>
+                <td>
+                    <input type="number" placeholder="Empty" id="input0" min="0" value="" 
+                    step="0.01" style="width: 90%;" pattern="^\d+(?:\.\d{1,2})?$" 
+                    onblur="this.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'white':'red'">
+                </td>
+                <td>
+                    <input type="number" placeholder="Empty" id="input1" min="0" value="" 
+                    step="0.01" style="width: 90%;" pattern="^\d+(?:\.\d{1,2})?$" 
+                    onblur="this.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'white':'red'">
+                </td>
+                <td>
+                    <input type="number" placeholder="Empty" id="input2" min="0" value="" 
+                    step="0.01" style="width: 90%;" pattern="^\d+(?:\.\d{1,2})?$" 
+                    onblur="this.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'white':'red'">
+                </td>
+                <td>
+                    <input type="number" placeholder="Empty" id="input3" min="0" value="" 
+                    step="1" style="width: 90%;" pattern="^\d+(?:\.\d{1,2})?$" 
+                    onblur="this.style.backgroundColor=/^\d+(?:\.)?$/.test(this.value)?'white':'red'">
+                </td>
+                <td>
+                    <input type="number" placeholder="Empty" id="input4" min="0" value="" 
+                    step="1" style="width: 90%;" pattern="^\d+(?:\.\d{1,2})?$" 
+                    onblur="this.style.backgroundColor=/^\d+(?:\.)?$/.test(this.value)?'white':'red'">
+                </td>
+                <td>
+                    <select id="input5" style="width: 90%;">
+                        <option value=""></option>
+                        <option value=1>Yes</option>
+                        <option value=0>No</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="number" placeholder="Empty" id="input6" min="0" value="" 
+                    step="1" style="width: 90%;" pattern="^\d+(?:\.\d{1,2})?$" 
+                    onblur="this.style.backgroundColor=/^\d+(?:\.)?$/.test(this.value)?'white':'red'">
+                </td>
+                <td>
+                    <input type="number" placeholder="Empty" id="input7" min="0" value="" 
+                    step="1" style="width: 90%;" pattern="^\d+(?:\.\d{1,2})?$" 
+                    onblur="this.style.backgroundColor=/^\d+(?:\.)?$/.test(this.value)?'white':'red'">
+                </td>
+                <td>
+                    <input type="number" placeholder="Empty" id="input8" min="0" value="" 
+                    step="0.01" style="width: 90%;" pattern="^\d+(?:\.\d{1,2})?$" 
+                    onblur="this.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'white':'red'">
+                </td>
+                <td>
+                    <input type="number" placeholder="Empty" id="input9" min="0" value="" 
+                    step="0.01" style="width: 90%;" pattern="^\d+(?:\.\d{1,2})?$" 
+                    onblur="this.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'white':'red'">
+                </td>
+            </tr>
+       </table>
+       <br>
+       <button onclick="predict()">Submit</button>
+       <label for="visibleBox" style="float:right; margin-right: 20px;">
+            Show tutorial images
+            <input name="visible" id = 'visibleBox' type="checkbox" onchange="flipTutorialImage()"/>
+        </label>
+       <br>
+       <div id="result"></div>
+       <br><br>
+       <img src="tutorial_image.jpg" id="tutorialImage" alt="Tutorial Image" style="width: 80%; margin-left: 10%;display: none;">
+        <script>
+            // console.log(parameters)
+            
+            let exapleValues = [10.14, 6.53, 21.125, 4.63120567, 3.39007092, 14.0, 13.0, 18.0, 53.58333333, 1.0];
+
+            function flipTutorialImage(){
+                if (document.getElementById('visibleBox').checked) {
+                    document.getElementById('tutorialImage').style.display = 'inline'                  
+                }
+                else{
+                    document.getElementById('tutorialImage').style.display = 'none'
+                }
+            }
+            function predict(){
+                //Fetching input from html table
+                let input = []
+                for (let i = 0; i < 10; i++) {
+                    input.push(document.getElementById('input' + i).value)                   
+                }
+                // Checking input validity and fill x
+                let emptyCells = 0;
+                let emptyString = ''
+                for (let i = 3; i < 10; i++) {
+                    if (input[i] == '') {
+                        emptyCells += 1;
+                        emptyString += document.getElementById('table').rows[0].cells[i].innerHTML + '\n'                      
+                    }  
+                }
+                if(emptyCells>0){
+                    let alertString = ''
+                    if(emptyCells == 1){
+                        alertString += 'Please fill the field:\n';
+                    }
+                    else{
+                        alertString += 'Please fill the fields:\n';
+                    }
+                    alertString += emptyString;
+                    alert(alertString)
+                    return -1
+                }
+
+                let sanatisedInput = [null, null, null, null, null, null, null, null, null, null]
+                let errorCells = 0
+                let errorString = ['','','','','','','','','',''];
+
+                for(i of [3,4,6,7]){
+                    if(testInteger(input[i])){
+                        sanatisedInput[i] = parseInt(input[i]);
+                    }
+                    else{
+                        errorCells += 1;
+                        errorString[i] = document.getElementById('table').rows[0].cells[i].innerHTML + '\tInteger number expected\n';
+                    }
+                }
+
+                for(i of [8,9]){
+                    if(testFloat(input[i])){
+                        sanatisedInput[i] = parseFloat(input[i]);
+                    }
+                    else{
+                        errorCells += 1;
+                        errorString[i] = document.getElementById('table').rows[0].cells[i].innerHTML+ '\tFormat 0.00 expected\n';
+                    }
+                }
+
+                for(i of [0,1,2]){
+                    if(testFloat(input[i]) || input[i] == ''){
+                        if(input[i] != ''){
+                            sanatisedInput[i] = parseFloat(input[i]);
+                        }
+                    }
+                    else{
+                        errorCells += 1;
+                        errorString[i] = document.getElementById('table').rows[0].cells[i].innerHTML + '\tFormat 0.00 or empty cell expected\n';
+                    }
+                }
+
+                if(errorCells != 0){
+                    if(errorCells == 1){
+                        let alertString = 'Error in Cell. Please check input of:\n'
+                        for (let i = 0; i < 10; i++) {
+                            alertString += errorString[i];  
+                        }
+                        alert(alertString); 
+                        return -1; 
+                    }
+                    else{
+                        let alertString = 'Error in Cells. Please check input of:\n'
+                        for (let i = 0; i < 10; i++) {
+                            alertString += errorString[i];   
+                        }
+                        alert(alertString); 
+                        return -1;
+                    }
+                }
+
+                sanatisedInput[5] = parseInt(input[5])
+
+                let x = [null, null, null, null, null, null, null, null, null, null]
+                if(sanatisedInput[0] == null){
+                    x[0] = sanatisedInput[8];
+                    x[2] = x[0];
+                }
+                else{
+                    x[0] = sanatisedInput[0];
+                    x[2] = x[0]/sanatisedInput[8]
+                }
+
+                if(sanatisedInput[1] == null){
+                    x[1] = sanatisedInput[9];
+                    x[3] = x[1];
+                }
+                else{
+                    x[1] = sanatisedInput[1];
+                    x[3] = x[1]/sanatisedInput[9]
+                }
+
+                if(sanatisedInput[2] == null){
+                    x[4] = sanatisedInput[9];
+                }
+                else{
+                    x[4] = sanatisedInput[2]/sanatisedInput[9]
+                }
+
+                x[5] = sanatisedInput[3]
+                x[6] = sanatisedInput[4]
+                x[7] = sanatisedInput[7]
+                x[8] = sanatisedInput[6]
+                x[9] = sanatisedInput[5]
+
+                
+                let outputValue = getPrediction(x)
+                console.log(outputValue)
+                outputValue = Math.round(outputValue * 100)
+                document.getElementById('result').innerHTML = 'Predicted probability of N2/3 disease:' + outputValue + '%'
+
+            }
+
+            function testInteger(a){
+                return /^\d+(?:\.)?$/.test(a)
+            }
+            function testFloat(a){
+                return /^\d+(?:\.\d{1,2})?$/.test(a)
+            }
+
+            function getPrediction(x){
+                //Robust Scaling
+                for (let i = 0; i < x.length; i++) {
+                    x[i] = x[i]/parameters['scaleValues'][i];
+                }
+
+                //Initialize with Dummy Value 
+                let out = parameters['dummyVal'];
+
+                //Calculate output
+                for (let i = 0; i < parameters['featureIndexes'].length; i++) {
+                    if(x[parameters['featureIndexes'][i]] <= parameters['thresholds'][i]){
+                        out += parameters['valBens'][i] * parameters['lr'];
+                    }
+                    else{
+                        out += parameters['valMals'][i] * parameters['lr'];
+                    }
+                }
+
+                out = 1/(1 + Math.exp(-out));
+
+                return out;
+
+            }
+
+            // console.log(predict(exapleValues))
+        </script>
+    </body>
+</html>
